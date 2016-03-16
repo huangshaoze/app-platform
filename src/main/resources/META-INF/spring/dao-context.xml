@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+	
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		
+      	<property name="initialSize" value="${jdbc.initialSize}" />
+      	<property name="minIdle" value="${jdbc.minIdle}" /> 
+      	<property name="maxActive" value="${jdbc.maxActive}" />
+
+      	<property name="timeBetweenEvictionRunsMillis" value="${jdbc.timeBetweenEvictionRunsMillis}" />
+      	<property name="minEvictableIdleTimeMillis" value="${jdbc.minEvictableIdleTimeMillis}" />
+      	
+      	<property name="validationQuery" value="${jdbc.validationQuery}" />  
+        <property name="testWhileIdle" value="${jdbc.testWhileIdle}" />  
+        <property name="testOnBorrow" value="${jdbc.testOnBorrow}" />  
+        <property name="testOnReturn" value="${jdbc.testOnReturn}" />  
+        <property name="maxOpenPreparedStatements" value="${jdbc.maxOpenPreparedStatements}" />  
+        <property name="removeAbandoned" value="${jdbc.removeAbandoned}" />
+        <property name="removeAbandonedTimeout" value="${jdbc.removeAbandonedTimeout}" />
+        <property name="logAbandoned" value="${jdbc.logAbandoned}" />
+        
+      	<property name="filters" value="${jdbc.filtes}" /> 
+	</bean>
+	
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" >
+    	<constructor-arg index="0" ref="dataSource" />
+    </bean>
+	<!-- JDBC分页-->
+    <bean class="cn.com.yitong.framework.common.dao.jdbc.NamedParameterJdbcPager">
+		<constructor-arg ref="dataSource" />
+		<property name="builder">
+			<!-- sql语句分页构造器：支持mysql和oralce -->
+			<bean id="sqlBuilder" class="cn.com.yitong.framework.core.support.SqlBuilderFactoryBean" />
+		</property>
+	</bean>
+	
+	<!-- myBatis配置-->
+    <!-- 扫描basePackage下所有以@MyBatisRepository注解的接口-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+        <property name="basePackage" value="cn.com.yitong.ipf.web,cn.com.yitong.framework.web"/>
+        <property name="annotationClass" value="cn.com.yitong.framework.core.support.mybatis.MyBatisRepository"/>
+    </bean>	
+    <!-- sqlSessionFactory-->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations" value="classpath:/META-INF/mybatis/oracle/**/*.xml" />
+		<property name="configLocation" value="classpath:/META-INF/mybatis/mybatis-config.xml"/>
+	</bean>
+
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>	
+
+	<bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+ 		<property name="transactionManager" ref="transactionManager" />
+ 	</bean>
+ 	
+	<!-- 配置事务的传播特性 -->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" /> 	
+</beans>
