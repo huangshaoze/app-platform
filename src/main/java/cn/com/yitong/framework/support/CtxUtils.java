@@ -18,12 +18,14 @@ import java.util.Map;
 public class CtxUtils {
 
     /**
-     * 交易前预处理,主要做如下事件:
-     * 1、解密客户端传送过来的报文,并构造成Map格式
+     * 交易前预处理,主要做如下事:
+     * 1、判断客户端传过来的SESSIONID是否过期
+     * 2、解密客户端传送过来的报文,并构造成Map格式
      * @param request
      * @return
      */
     public static Map<String, Object> transPrev(HttpServletRequest request) {
+        String cookie = request.getHeader("Cookie");
         HttpSession session = request.getSession();
         //设置返回值加密方式采用服务端生成的AES密钥加密
         session.setAttribute(SessionConstant.ENCRY_TYPE, SessionConstant.ENCRY_TYPE_2);

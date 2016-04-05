@@ -86,32 +86,7 @@ public class TestController {
 		map.put("sessionId", sessionId);
 		return map;
 	}
-	
-	@RequestMapping(value = "/dto", headers="accept")
-	@ResponseBody
-	public UserDto testDto(@PathVariable(value="aa") String t1,
-			@RequestHeader(value="bb") String t2, String t34, String t46) {
-		UserDto t = new UserDto();
-		t.setName("zzp");
-		t.setPasswd("111111111");
-		return t;
-	}
-	
-	@RequestMapping(value = "/dtoList")
-	@ResponseBody
-	public List<UserDto> dtoList() {
-		UserDto t1 = new UserDto();
-		t1.setName("zzp");
-		t1.setPasswd("111111111");
-		UserDto t2 = new UserDto();
-		t2.setName("aaa");
-		t2.setPasswd("22222");
-		List<UserDto> list = new ArrayList<UserDto>();
-		list.add(t1);
-		list.add(t2);
-		return list;
-	}
-	
+
 	@RequestMapping(value = "/testJdbcTemplateInsert")
 	@ResponseBody
 	public ResponseData testJdbcTemplateInsert() {
@@ -121,6 +96,12 @@ public class TestController {
 		return ResponseData.SUCCESS_NO_DATA;
 	}
 
+	@RequestMapping(value = "/webSession")
+	@ResponseBody
+	public String webSession(HttpServletRequest request) {
+		request.setAttribute("aa", "111");
+		return "success";
+	}
 	private Jedis getJedis(){
 		if(jedis == null){
 			return jedisConnectionFactory.getShardInfo().createResource();

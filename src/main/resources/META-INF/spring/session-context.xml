@@ -8,4 +8,5 @@
 		<property name="maxInactiveIntervalInSeconds" value="600"></property>
 	</bean>
 
+	<bean class="org.springframework.session.web.http.HeaderHttpSessionStrategy" />
 </beans>

@@ -24,11 +24,11 @@ import org.springframework.web.context.WebApplicationContext;
 /**
  * Created by zhuzengpeng on 2015/12/15.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration(value = "src/main/webapp")
-@ContextConfiguration(locations = {"classpath:/META-INF/spring/core-context.xml",
-        "classpath:/META-INF/spring/mvc-context.xml",
-        "classpath:/META-INF/spring/cache-context.xml"})
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@WebAppConfiguration(value = "src/main/webapp")
+//@ContextConfiguration(locations = {"classpath:/META-INF/spring/core-context.xml",
+//        "classpath:/META-INF/spring/mvc-context.xml",
+//        "classpath:/META-INF/spring/cache-context.xml"})
 public class SpringTest {
 
     @Autowired
@@ -48,7 +48,7 @@ public class SpringTest {
      * ResultActions.andReturn表示执行完成后返回相应的结果。
      * @throws Exception
      */
-    @org.junit.Test
+//    @org.junit.Test
     public void testHttpGet() throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/redis/testModelAndView?username=100"))
                 .andExpect(MockMvcResultMatchers.view().name("home/index"))//验证viewName
@@ -61,7 +61,7 @@ public class SpringTest {
     Assert.assertNotNull(result.getModelAndView().getModel().get("username").equals("100"));
 }
 
-    @org.junit.Test
+//    @org.junit.Test
     public void testHttpPost() throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/redis/get").param("a", "100"))
                 .andExpect(MockMvcResultMatchers.handler().handlerType(TestController.class))//验证执行的控制器类型
@@ -85,7 +85,7 @@ public class SpringTest {
     /**
      * 测试请求返回结果是JSON字符串的情况
      */
-    @org.junit.Test
+//    @org.junit.Test
     public void testResponseJson() throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/redis/get").param("a", "100"))
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8")) //验证响应contentType

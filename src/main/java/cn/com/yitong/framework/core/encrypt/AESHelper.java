@@ -99,19 +99,14 @@ public class AESHelper {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-//        String content = "{name:'zhangsan', sex:'16', school:'李四'}";
-//        String password = "20141212112740.27c521a72-0817-45";
-//        byte[] encryptResult = encrypt(content, password);//加密
-//        byte[] decryptResult = decrypt(encryptResult,password);//解密
-//        System.out.println("***********************************************");
-//        String encryptResultStr = Base64Utils.encodeToString(encryptResult);
-//        System.out.println("先AES然后BASE64加密后：" + encryptResultStr);
-//        byte[] decryptFrom = Base64Utils.decodeFromString(encryptResultStr);
-//        decryptResult = decrypt(decryptFrom,password);//解码
-//        System.out.println("解密后：" + new String(decryptResult));
-        System.out.println("-----***********************************************");
-        String eee = "9EYxDjsB56fveZi2cczmHwLBYw0W0By+7Ms6GEfsqzy0yla6wPonUf6qeu7AkO72pve+XrAFjxK5mglZ2Lb9iYorb+cqcEuCDwY+rruOexg=";
-        String eeePasswd = "000145796074591741daa8cf7c044547";
-        System.out.println("--------------" + decrypt(Base64.decode(eee), eeePasswd));
+        String content = "{name:'zhangsan', sex:'16', school:'李四'}";
+        String password = "20141212112740.22014121211274011";
+        byte[] encryptResult = encrypt(content, password);//加密
+        System.out.println("***********************************************");
+        String encryptResultStr = Base64.encode(encryptResult);
+        System.out.println("先AES然后BASE64加密后：" + encryptResultStr);
+        byte[] decryptFrom = Base64.decode(encryptResultStr);
+        byte[] decryptResult = decrypt(decryptFrom,password);//解码
+        System.out.println("解密后：" + new String(decryptResult));
     }
 }
