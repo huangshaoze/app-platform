@@ -26,6 +26,7 @@
 		
 	<mvc:default-servlet-handler/>
 	<mvc:resources location="/resources/" mapping="/resources/**" cache-period="3600"/>
+	<mvc:resources location="/WEB-INF/swagger/" mapping="/swagger/**" cache-period="3600"/>
 
 	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
 		<property name="order" value="1" />

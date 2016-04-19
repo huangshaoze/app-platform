@@ -8,5 +8,7 @@
 		<property name="maxInactiveIntervalInSeconds" value="600"></property>
 	</bean>
 
+	<!--添加此项后,每次响应头会自动添加x-auth-token放置SESSIONID，
+	同时请求不在使用COOKIE判断是否为同一会话，得在请求头添加x-auth-token来判断是不是同一会话-->
 	<bean class="org.springframework.session.web.http.HeaderHttpSessionStrategy" />
 </beans>

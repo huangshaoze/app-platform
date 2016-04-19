@@ -55,16 +55,15 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-	<!-- 针对会话的一些特殊情况统一在过滤器处理-->
+	<!-- 针对会话的一些特殊情况统一在过滤器处理(使用spring管理filter)-->
 	<filter>
-		<filter-name>sessionFilter</filter-name>
-		<filter-class>cn.com.yitong.framework.servlet.SessionFilter</filter-class>
+		<filter-name>securityFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>
 	<filter-mapping>
-		<filter-name>sessionFilter</filter-name>
+		<filter-name>securityFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
     <!-- Spring MVC -->    
 	<servlet>
 		<servlet-name>rest</servlet-name>

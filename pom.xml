@@ -14,18 +14,18 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <spring.version>4.2.5.RELEASE</spring.version>
   	<spring-session.version>1.1.1.RELEASE</spring-session.version>
-    <cglib.version>3.1</cglib.version>
-    <aspectj.version>1.7.4</aspectj.version>
+    <cglib.version>3.2.2</cglib.version>
+    <aspectj.version>1.8.9</aspectj.version>
     <oracle.version>10.2.0.1.0</oracle.version>
     <druid.version>1.0.18</druid.version>
     <servlet.version>3.1.1</servlet.version>
 	<jsp.version>2.2</jsp.version>
 	<jstl.version>1.2</jstl.version>    
-    <mybatis.version>3.2.8</mybatis.version>
-    <mybatis-spring.version>1.2.2</mybatis-spring.version>	
-    <jackson.version>2.2.2</jackson.version>
-	<logback.version>1.0.13</logback.version>
-	<org.slf4j.version>1.7.7</org.slf4j.version>
+    <mybatis.version>3.4.0</mybatis.version>
+    <mybatis-spring.version>1.3.0</mybatis-spring.version>
+    <jackson.version>2.7.3</jackson.version>
+	<logback.version>1.1.7</logback.version>
+	<org.slf4j.version>1.7.21</org.slf4j.version>
 	<commons-lang.version>2.6</commons-lang.version>
 	<commons-fileupload.version>1.3.1</commons-fileupload.version>
 	<commons-io.version>2.4</commons-io.version>	
@@ -35,6 +35,7 @@
     <freemarker.version>2.3.22</freemarker.version>
     <sitemesh.version>2.4.2</sitemesh.version>
     <spring-data-redis.version>1.6.4.RELEASE</spring-data-redis.version>
+  	<mysql.version>6.0.2</mysql.version>
   </properties>
 
   <dependencies>
@@ -94,7 +95,7 @@
 		<dependency>
 		    <groupId>mysql</groupId>
 		    <artifactId>mysql-connector-java</artifactId>
-		    <version>5.1.29</version>
+		    <version>${mysql.version}</version>
 		</dependency>
 		<!-- 数据库连接池 -->
 		<dependency>
@@ -193,13 +194,13 @@
 			<artifactId>java-uuid-generator</artifactId>
 			<version>${java-uuid-generator.version}</version>
 			<scope>provided</scope>
-		</dependency>    
+		</dependency>
         <!-- freemarker engine -->
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
             <version>${freemarker.version}</version>
-        </dependency>	
+        </dependency>
         <dependency>
         <!-- sitemesh -->
             <groupId>opensymphony</groupId>
@@ -212,13 +213,7 @@
 		    <groupId>com.github.pagehelper</groupId>
 		    <artifactId>pagehelper</artifactId>
 		    <version>3.7.0</version>
-		</dependency>               		   				 
-	    <dependency>
-	      <groupId>junit</groupId>
-	      <artifactId>junit</artifactId>
-	      <version>3.8.1</version>
-	      <scope>test</scope>
-	    </dependency>
+		</dependency>
 		<dependency>
 		    <groupId>com.mcxiaoke.volley</groupId>
 		    <artifactId>library</artifactId>

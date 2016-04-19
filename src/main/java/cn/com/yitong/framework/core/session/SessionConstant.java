@@ -29,4 +29,7 @@ public class SessionConstant {
     public static final String ENCRY_TYPE_1 = "1";
     //普通接口返回加密方式
     public static final String ENCRY_TYPE_2 = "2";
+
+    //spring session请求头和响应头都通过此变量传递SESSIONID
+    public static final String HEADERNAME_X_AUTH_TOKEN = "x-auth-token";
 }

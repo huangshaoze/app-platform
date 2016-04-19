@@ -4,7 +4,10 @@ import cn.com.yitong.framework.core.encrypt.AESHelper;
 import cn.com.yitong.framework.core.encrypt.Base64;
 import cn.com.yitong.framework.core.encrypt.RsaHelper;
 import cn.com.yitong.framework.core.session.SessionConstant;
+import cn.com.yitong.framework.servlet.RequestUtils;
 import cn.com.yitong.framework.support.CtxUtils;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +23,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/session")
+@Api(value = "会话相关接口", description = "客户端与服务会话相关接口" )
 public class SessionController {
 
     Logger logger = LoggerFactory.getLogger(SessionController.class);
@@ -32,10 +36,11 @@ public class SessionController {
      * @return
      */
     @RequestMapping(value = "refreshSession")
+    @ApiOperation(value = "与服务端握手", httpMethod = "POST", response = Map.class, notes = "客户端与服务端握手")
     public Map<String, Object> refreshSession(HttpServletRequest request) throws Exception {
         Map<String, Object> rst = new HashMap<String, Object>();
         //从请求报文中取得密文解密,然后把请求报文解析成Map
-        String requestBodyStr = CtxUtils.getRequestBody(request);
+        String requestBodyStr = RequestUtils.getRequestBody(request);
         logger.info("刷新SESSION接口,取得的加密前请求报文;{}", requestBodyStr);
         //解密出来后即是客户端生成的AESKEY-1
         String msg = RsaHelper.decrypt(requestBodyStr);
@@ -52,4 +57,6 @@ public class SessionController {
         rst.put(SessionConstant.AESKEY, aeskey);
         return rst;
     }
+
+
 }

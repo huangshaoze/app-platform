@@ -1,5 +1,6 @@
 package cn.com.yitong.framework.fastjson;
 
+import cn.com.yitong.framework.core.AppConstants;
 import cn.com.yitong.framework.core.encrypt.AESHelper;
 import cn.com.yitong.framework.core.encrypt.Base64;
 import cn.com.yitong.framework.core.session.SessionConstant;
@@ -28,8 +29,10 @@ public class FastJsonHttpMessageConverterCodec extends FastJsonHttpMessageConver
     @Override
     protected void writeInternal(Object obj, HttpOutputMessage outputMessage) throws IOException,
             HttpMessageNotWritableException {
-        if(true) {//需要加密
-            writeInteernalCodec(obj, outputMessage);
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String clientSessionId = request.getHeader(SessionConstant.HEADERNAME_X_AUTH_TOKEN);
+        if(clientSessionId != null) {//客户端调用的请求需要走加密
+            writeInteernalCodec(obj, outputMessage, request);
         }else {
             super.writeInternal(obj, outputMessage);
         }
@@ -40,8 +43,15 @@ public class FastJsonHttpMessageConverterCodec extends FastJsonHttpMessageConver
      * @param obj
      * @param outputMessage
      */
-    private void writeInteernalCodec(Object obj, HttpOutputMessage outputMessage) throws IOException {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+    private void writeInteernalCodec(Object obj, HttpOutputMessage outputMessage, HttpServletRequest request) throws IOException {
+        OutputStream out = outputMessage.getBody();
+        //返回数据转成JSON字符串
+        String text = JSON.toJSONString(obj, super.getFeatures());
+        //判断返回报文是否是SESSION超时,如果是超时报文不加密，其余报文都要加密
+        if(AppConstants.STATUS_SESSION_TIMEOUT.equals(JSON.parseObject(text).getString(AppConstants.STATUS))) {
+            out.write(text.getBytes(super.getCharset()));
+            return;
+        }
         HttpSession session = request.getSession();
         String sessionId = session.getId();
         logger.info("MessageConverter---sessionId:{}", sessionId);
@@ -50,9 +60,6 @@ public class FastJsonHttpMessageConverterCodec extends FastJsonHttpMessageConver
             aeskey = session.getAttribute(SessionConstant.CLIENT_AESKEY).toString();
         }
         logger.info("MessageConverter---aesKey:{}", aeskey);
-        OutputStream out = outputMessage.getBody();
-        //返回数据转成JSON字符串
-        String text = JSON.toJSONString(obj, super.getFeatures());
         //加密JSON字符串,并用BASE64编码
         byte[] textAesEncry = AESHelper.encrypt(text, aeskey);
         String textEncry = Base64.encode(textAesEncry);

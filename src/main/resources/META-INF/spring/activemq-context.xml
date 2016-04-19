@@ -26,7 +26,7 @@
 		<property name="connectionFactory">
 			<ref bean="connectionFactory" />
 		</property>
-		<property name="defaultDestinationName" value="subject" />
+		<property name="defaultDestinationName" value="test" />
 	</bean>
 
 	<!--这个是队列目的地，点对点的-->
